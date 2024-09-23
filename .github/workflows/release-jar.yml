@@ -1,0 +1,45 @@
+name: Java 8 Compilation for Release
+
+on:
+  push:
+    branches:
+      - main # or specify your target branch
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up JDK 8
+      uses: actions/setup-java@v2
+      with:
+        java-version: '8'
+        distribution: 'adopt'
+
+    - name: Download original .jars
+      run: bash download-mcp.sh
+
+    - name: Decompile/Recompile jars
+      run: bash compile.sh
+
+    - name: Upload Release Asset
+      if: github.event_name == 'release'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: server.jar
+        asset_name: server.jar
+        asset_content_type: application/java-archive
+
+    - name: Upload Artifact for Each Commit
+      if: github.event_name == 'push'
+      uses: actions/upload-artifact@v3
+      with:
+        name: server-jar-${{ github.sha }}
+        path: server.jar
