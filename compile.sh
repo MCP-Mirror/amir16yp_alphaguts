@@ -7,4 +7,4 @@ java -jar mcp.jar recompile
 echo "Manifest-Version: 1.0" > MANIFEST.MF
 echo "Main-Class: net.minecraft.server.MinecraftServer" >> MANIFEST.MF
 
-jar cfm server.jar MANIFEST.MF -C minecraft_server/bin/ .
+jar cfm server.jar MANIFEST.MF -C minecraft_server/bin/
