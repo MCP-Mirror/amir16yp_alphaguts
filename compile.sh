@@ -2,6 +2,8 @@
 
 echo $(which java)
 
+ls -la
+
 /usr/bin/java -jar ./mcp.jar setup a1.2.6
 /usr/bin/java -jar ./mcp.jar decompile
 /usr/bin/java -jar ./mcp.jar applypatch
